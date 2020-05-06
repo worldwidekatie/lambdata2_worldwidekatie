@@ -1,0 +1,8 @@
+
+# ignoring artifacts from the distribution
+
+
+
+build/
+dist/
+*.egg-info
