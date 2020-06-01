@@ -1,5 +1,11 @@
 from scipy import stats
 import pandas as pd
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.feature_selection import SelectPercentile, f_classif
+from sklearn.datasets import make_classification
+import numpy as np
 
 def t_test(dataframe, column, group_a, group_b):
   groupaa = dataframe[dataframe[column]==group_a]
@@ -38,6 +44,35 @@ def chi2(df, dependent_var):
 def enlarge(n):
     return int(n)*100
 
+def pac_explain(pipeline):
+  clf = pipeline.named_steps.passiveaggressiveclassifier
+  weights = clf.coef_
+  weights = list(weights[0])
+  vect = pipeline.named_steps.tfidfvectorizer
+  vocab = list(vect.vocabulary_)
+  sp = pipeline.named_steps.selectpercentile
+  select_p = list(sp.get_support())
+  df1 = pd.DataFrame({'Word': vocab, 'Used': select_p})
+  df1 = df1[df1['Used']==True]
+  features = list(df1['Word'])
+  importances = pd.DataFrame({"Feature": features, "Weight": weights})
+  slim_importances = importances[importances["Weight"]!=0].sort_values(by="Weight", ascending='False')
+  return slim_importances
+
+def importances(sample, importance_df):
+  x = sample.lower().split()
+  features = []
+  weights = []
+  array_weights = np.array(importance_df)
+  for word in x:
+    for i in array_weights:
+      if word == i[0]:
+        features.append(word)
+        weights.append(i[1])
+  
+  feature_importances = pd.DataFrame({'Feature': features, 'Weight': weights})
+  
+  return feature_importances
 
 if __name__ == "__main__":
     pass

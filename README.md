@@ -1,7 +1,16 @@
-# lambdata2_worldwidekatie
+# lambdata_worldwidekatie
 
 ## Installation
+Use !pip install -i https://test.pypi.org/simple/ lambdata-worldwidekatie==1.3
 
-I guess fork the repo but I don't think anything is working so it doesn't matter.
+Then import my_lambdata.my_mod as md
 
-It doesn't seem to be using the actual pipfiles associated with this so I don't know what you can do to fix that, you wont' have the ones it's actually using.
+Using md.enlarge(x), you can multiply integers(x) by 10.
+
+Using md.t_test(df, 'class', 'class1', 'class2'), you can make at table to t-tests with 'class' being the name of the column with the two independent variables and 'class1' and 'class2' being how they are represented in that column.
+
+Using md.chi2(df, variable), you can make a table of chi^2 results with variable being the indepedent variable.
+
+
+
+
