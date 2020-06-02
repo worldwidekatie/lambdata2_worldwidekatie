@@ -8,6 +8,14 @@ from sklearn.datasets import make_classification
 import numpy as np
 
 def t_test(dataframe, column, group_a, group_b):
+  """
+  This function takes in a pandas dataframe, the name of
+  the column with your independent variables as a string
+  and the names of your two independent variables also
+  as strings. It returns a pandas dataframe of t-statistics and
+  p-values for al of the dependent variables in the
+  other columns.
+  """
   groupaa = dataframe[dataframe[column]==group_a]
   groupa = groupaa.drop(columns=[column])
   groupbb = dataframe[dataframe[column]==group_b]
@@ -25,6 +33,12 @@ def t_test(dataframe, column, group_a, group_b):
   return output2.sort_values(by=['P-Value'])
 
 def chi2(df, dependent_var):
+  """
+  This function takes in a pandas dataframe and the name
+  of the column with the independent variable as a string.
+  It returns a pandas dataframe of chi^2 and p-values for
+  all of the other columns/dependent variables.
+  """
   columns = df.columns.tolist()
   columns.remove(dependent_var)
   output=[]
@@ -42,9 +56,19 @@ def chi2(df, dependent_var):
 
 
 def enlarge(n):
+  """
+  This functions takes a number as an integer or float
+  and multiplies it by 100.
+  """
     return int(n)*100
 
 def pac_explain(pipeline):
+  """
+  This function takes a pipeline fitted on a textual dataset
+  with a tfidvectorizer, selectpercentile, and a 
+  passive agressive classifier. It outputs a dataframe of
+  selected features and their coefficients.
+  """
   clf = pipeline.named_steps.passiveaggressiveclassifier
   weights = clf.coef_
   weights = list(weights[0])
@@ -60,6 +84,15 @@ def pac_explain(pipeline):
   return slim_importances
 
 def importances(sample, importance_df):
+  """
+  This function is for explaining predictions made by a
+  pipeline that has been put through the pac_explain()
+  function. It takes the output datframe and the
+  sample string you want to predict and outputs a 
+  pandas dataframe with all of the words from that string
+  your model used to make a prediction and their 
+  coefficients.
+  """
   x = sample.lower().split()
   features = []
   weights = []

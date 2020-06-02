@@ -11,6 +11,11 @@ Using md.t_test(df, 'class', 'class1', 'class2'), you can make at table to t-tes
 
 Using md.chi2(df, variable), you can make a table of chi^2 results with variable being the indepedent variable.
 
+Using md.pac_explain(pipeline), you can make a pandas dataframe of features selected along side their coefficients for a pipeline that includes a tfidvectorizer, selectpercentile, and passive-agressive classifier trained on a textual dataset.
+
+Using md.importances(sample, importance_df), with the importance_df outputted by md.pac_explain(pipeline), you can make a pandas dataframe of features used to make a single prediction by your model alongside their coefficients. 
+
+
 
 
 
