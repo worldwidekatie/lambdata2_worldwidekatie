@@ -1,5 +1,7 @@
 # lambdata_worldwidekatie
 
+To see an example of this library in action, check out this colab document https://colab.research.google.com/drive/1Xrqi3xFTp_nQIuOOjjfwogtopNy1BmQL
+
 ## Installation
 Use !pip install -i https://test.pypi.org/simple/ lambdata-worldwidekatie==1.3
 

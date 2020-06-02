@@ -1,14 +1,11 @@
-import pandas
+""" Creating a user class """
 
-#import my_mod
-from my_lambdata.my_mod import enlarge
-
-print("Hello world")
-
-print (2+2)
-
-df = pandas.DataFrame({"a": [1,2,3], "b": [4,5,6]})
-print(df.head())
-
-y = 9
-print(enlarge(y))
+class User():
+    def __init__(self, username, password, bio, posts=[]):
+        self.username = username
+        self.password = password
+        self.bio = bio
+        self.posts = posts
+    def new_post(self):
+        post = "New Status"
+        posts.append(post)
