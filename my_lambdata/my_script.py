@@ -7,5 +7,6 @@ class User():
         self.bio = bio
         self.posts = posts
     def new_post(self):
-        post = "New Status"
+        post = input()
         posts.append(post)
+        return posts
