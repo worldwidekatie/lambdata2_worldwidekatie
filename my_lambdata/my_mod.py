@@ -60,7 +60,7 @@ def enlarge(n):
   This functions takes a number as an integer or float
   and multiplies it by 100.
   """
-    return int(n)*100
+  return int(n)*100
 
 def pac_explain(pipeline):
   """
