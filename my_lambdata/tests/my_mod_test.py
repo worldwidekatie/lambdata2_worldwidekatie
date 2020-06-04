@@ -14,8 +14,10 @@ class TestMyMod(unittest.TestCase):
 
     def test_t_test(self):
         df = pd.read_csv(iris, names=['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'class'])
+        df = t_test(df, 'class', 'Iris-setosa', 'Iris-virginica')
         df2 = pd.read_csv(ttest, index_col='Unnamed: 0')
-        self.assertEqual(t_test(df, 'class', 'Iris-setosa', 'Iris-virginica'), df2)
+        for i in df:
+            self.assertIn(i, df2)
 
 if __name__ == '__main__':
     unittest.main()
