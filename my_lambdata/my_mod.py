@@ -6,6 +6,8 @@ from sklearn.linear_model import PassiveAggressiveClassifier
 from sklearn.feature_selection import SelectPercentile, f_classif
 from sklearn.datasets import make_classification
 import numpy as np
+import plotly.figure_factory as ff
+import plotly.graph_objects as go
 
 def t_test(dataframe, column, group_a, group_b):
   """
@@ -107,16 +109,70 @@ def importances(sample, importance_df):
   
   return feature_importances
 
+def plot_importance(pipeline, sample, label_1, label_0):
+  """This function gives coefficients for individual predictions
+      as a horizontal plotly bar graph"""
+  clf = pipeline.named_steps.passiveaggressiveclassifier
+  weights = clf.coef_
+  weights = list(weights[0])
+  vect = pipeline.named_steps.tfidfvectorizer
+  vocab = list(vect.vocabulary_)
+  sp = pipeline.named_steps.selectpercentile
+  select_p = list(sp.get_support())
+  df1 = pd.DataFrame({'Word': vocab, 'Used': select_p})
+  df1 = df1[df1['Used']==True]
+  features = list(df1['Word'])
+  importances = pd.DataFrame({"Feature": features, "Weight": weights})
+  slim_importances = importances[importances["Weight"]!=0].sort_values(by="Weight", 
+                                                                       ascending='False')
+  non_ira_features = []
+  non_ira_weights = []
+  ira_features= []
+  ira_weights = []
+
+  array_weights = np.array(slim_importances)
+  x = sample[0].lower().split()
+  features = []
+  weights = []
+  for word in x:
+    for i in array_weights:
+      if word == i[0]:
+        features.append(word)
+        weights.append(i[1])
+  feature_importances = pd.DataFrame({'Feature': features, 'Weight': weights})
+
+  prediction = pipeline.predict(sample)
+  confidence = pipeline.decision_function(sample)
+
+  pred_class =  prediction[0]
+  confidence = confidence[0]
+  num_features = len(feature_importances)
+
+
+  array = np.array(feature_importances)
+  for i in array:
+    if i[1] < 0:
+      non_ira_features.append(i[0])
+      non_ira_weights.append(i[1])
+    else:
+      ira_features.append(i[0])
+      ira_weights.append(i[1])
+
+
+  fig = go.Figure()
+  fig.add_trace(go.Bar(y=non_ira_features, x=non_ira_weights,
+                  base=0,
+                  orientation='h',
+                  marker_color='lightslategrey',
+                  name= label_0))
+  fig.add_trace(go.Bar(y=ira_features, x=ira_weights,
+                  base=0,
+                  orientation='h',
+                  marker_color='crimson',
+                  name= label_1))
+
+  return pred_class, confidence, num_features, fig
+
 if __name__ == "__main__":
     pass
-    # only run the following code
-    # when we run this script rom the command-line
-    # otherwise don't invoke this code 
-    # (for example when importing from another file)
 
-    x = 5
-    print(enlarge(x))
-
-
-    z = input("Please choose a number to enlarge:")
-    print(enlarge(z))
